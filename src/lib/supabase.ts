@@ -1,11 +1,14 @@
 
 import { createClient } from '@supabase/supabase-js';
 
+// We're using these as placeholders. In a real application, these would be real Supabase credentials.
+// For now we'll make a mock version that doesn't actually connect to Supabase
 const supabaseUrl = 'https://your-supabase-url.supabase.co';
 const supabaseAnonKey = 'your-supabase-anon-key';
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// Mock implementation for local testing
 export const createChatSession = async () => {
   // Generate a session ID if one doesn't exist
   let sessionId = localStorage.getItem('chat_session_id');
@@ -13,47 +16,27 @@ export const createChatSession = async () => {
   if (!sessionId) {
     sessionId = crypto.randomUUID();
     localStorage.setItem('chat_session_id', sessionId);
-    
-    // Create a record of this session in Supabase
-    const { error } = await supabase
-      .from('chat_sessions')
-      .insert([{ session_id: sessionId, created_at: new Date().toISOString() }]);
-    
-    if (error) console.error('Error creating chat session:', error);
+    console.log('Created new chat session:', sessionId);
   }
   
   return sessionId;
 };
 
+// Mock implementation for local testing
 export const saveChatMessage = async (
   sessionId: string, 
   message: string, 
   isUser: boolean,
   timestamp = new Date().toISOString()
 ) => {
-  const { error } = await supabase
-    .from('chat_messages')
-    .insert([{
-      session_id: sessionId,
-      message,
-      is_user: isUser,
-      timestamp
-    }]);
-  
-  if (error) console.error('Error saving chat message:', error);
+  // Just log that we would save this message
+  console.log('Would save chat message:', { sessionId, message, isUser, timestamp });
+  return true;
 };
 
+// Mock implementation for local testing
 export const getChatHistory = async (sessionId: string) => {
-  const { data, error } = await supabase
-    .from('chat_messages')
-    .select('*')
-    .eq('session_id', sessionId)
-    .order('timestamp', { ascending: true });
-  
-  if (error) {
-    console.error('Error fetching chat history:', error);
-    return [];
-  }
-  
-  return data;
+  // Return empty array as if no chat history exists yet
+  console.log('Would fetch chat history for session:', sessionId);
+  return [];
 };

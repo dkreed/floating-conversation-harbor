@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { createChatSession, saveChatMessage, getChatHistory } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 
 export type Message = {
   id: string;
@@ -13,6 +14,7 @@ export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const { toast } = useToast();
 
   // Initialize chat session
   useEffect(() => {
@@ -57,8 +59,16 @@ export const useChat = () => {
     setIsLoading(true);
     
     try {
+      // Fixed webhook URL
+      const webhookUrl = 'https://demo.top5-ai.tools/webhook-test/3f9ab7e8-619a-4663-8b8a-1cbbb6d92c39';
+      
+      console.log("Sending message to webhook:", {
+        message: content,
+        sessionId
+      });
+      
       // Send message to webhook
-      const response = await fetch('https://demo.top5-ai.tools/webhook-test/3f9ab7e8-619a-4663-8b8a-1cbbb6d92c39', {
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -68,10 +78,12 @@ export const useChat = () => {
       });
       
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        throw new Error(`Failed to send message: ${response.status} ${response.statusText}`);
       }
       
       const data = await response.json();
+      console.log("Received webhook response:", data);
+      
       const botMessage: Message = {
         id: crypto.randomUUID(),
         content: data.reply || "Sorry, I couldn't process your request.",
@@ -97,6 +109,13 @@ export const useChat = () => {
       
       setMessages(prev => [...prev, errorMessage]);
       await saveChatMessage(sessionId, errorMessage.content, false, errorMessage.timestamp);
+      
+      // Show error toast
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }

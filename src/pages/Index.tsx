@@ -7,6 +7,7 @@ import { ArrowUpRight, Paperclip, Send, Loader2 } from 'lucide-react';
 import ChatMessage from '@/components/ChatMessage';
 import { useChat } from '@/hooks/useChat';
 import { cn } from '@/lib/utils';
+import { Toaster } from '@/components/ui/toaster';
 
 const Index = () => {
   const [input, setInput] = useState('');
@@ -149,6 +150,9 @@ const Index = () => {
           </div>
         </form>
       </section>
+      
+      {/* Toast notifications */}
+      <Toaster />
     </div>
   );
 };

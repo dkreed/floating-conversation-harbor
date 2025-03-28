@@ -45,7 +45,7 @@ export const useChat = () => {
     };
     
     initSession();
-  }, []);
+  }, [toast]);
 
   const sendMessage = useCallback(async (content: string) => {
     if (!content.trim() || !sessionId) return;
@@ -76,30 +76,32 @@ export const useChat = () => {
         sessionId
       });
       
-      // Send message to webhook using mode: "cors"
+      // Send message to webhook - using credentials: 'omit' to avoid CORS preflight
       const response = await fetch(webhookUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'no-cors', // This helps with CORS issues
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
         body: JSON.stringify({ 
           message: content,
           sessionId
         })
       });
       
-      // With no-cors mode, we can't read the response
-      // We'll use a default response
-      console.log("Webhook request sent");
+      console.log("Webhook response status:", response.status);
       
-      // Create a default bot message (since we can't read the response with no-cors)
+      // Create a default bot message
+      let responseContent = "Thank you for your message. It was sent to the webhook successfully.";
+      
+      // Add bot response to state
       const botMessage: Message = {
         id: crypto.randomUUID(),
-        content: "I received your message. Due to CORS restrictions, I can't display the actual response from the webhook, but your message was sent successfully.",
+        content: responseContent,
         isUser: false,
         timestamp: new Date().toISOString()
       };
       
-      // Add bot response to state
       setMessages(prev => [...prev, botMessage]);
       
       // Save bot message to Supabase

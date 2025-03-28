@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,8 @@ import ChatMessage from './ChatMessage';
 import { useChat } from '@/hooks/useChat';
 import { cn } from '@/lib/utils';
 
+// This component is not currently used in the main UI
+// It's kept for future reference or alternative chat implementations
 const ChatWindow: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
@@ -38,7 +39,7 @@ const ChatWindow: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 z-50 hidden">
       {/* Chat toggle button */}
       <Button
         onClick={toggleChat}

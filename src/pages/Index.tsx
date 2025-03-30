@@ -44,29 +44,29 @@ const Index = () => {
         <div className="flex flex-col items-center text-center">
           {/* Gradient Orb */}
           <div className="relative w-24 h-24 mb-8">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-orange-400 opacity-80 blur-sm"></div>
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-red-400 via-red-600 to-red-800 opacity-90 blur-sm shadow-lg shadow-red-600/30"></div>
             <div className="absolute inset-[6px] bg-background rounded-full"></div>
-            <div className="absolute inset-[16px] rounded-t-full bg-gradient-to-br from-blue-400 via-purple-500 to-orange-400 rotate-45"></div>
+            <div className="absolute inset-[16px] rounded-t-full bg-gradient-to-br from-red-400 via-red-600 to-red-800 rotate-45"></div>
           </div>
           
           {/* Headline */}
           <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight">
-            Idea to app in <span className="gradient-text">seconds.</span>
+            Find what you <span className="gradient-text">desire.</span>
           </h1>
           
           {/* Subheadline */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-            Lovable is your superhuman full stack engineer.
+            FindMe.ai is your personal desire fulfillment assistant.
           </p>
           
           {/* Quick Options */}
           <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {["Recipe collection", "3D product viewer", "Real estate listings", "E-commerce product page"].map((item) => (
+            {["Date ideas", "Gift suggestions", "Fashion advice", "Travel destinations"].map((item) => (
               <div 
                 key={item} 
-                className="glass-panel rounded-full px-4 py-2 text-sm flex items-center gap-2 cursor-pointer"
+                className="glass-panel rounded-full px-4 py-2 text-sm flex items-center gap-2 cursor-pointer hover:bg-red-950/30 transition-colors"
                 onClick={() => {
-                  setInput(`Create a ${item.toLowerCase()}`);
+                  setInput(`Suggest ${item.toLowerCase()}`);
                   if (textareaRef.current) {
                     textareaRef.current.focus();
                   }
@@ -86,7 +86,7 @@ const Index = () => {
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
               <div>
-                <p>Ask Lovable to create something amazing for you!</p>
+                <p>Ask FindMe.ai to help you find what you desire...</p>
                 <p className="text-xs mt-2">Your chat history will be saved for your convenience.</p>
               </div>
             </div>
@@ -113,7 +113,7 @@ const Index = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleTextareaKeyDown}
-              placeholder="Ask Lovable to create a blog about..."
+              placeholder="Tell FindMe.ai what you're looking for..."
               className="min-h-24 resize-none p-4 bg-transparent border-0 focus-visible:ring-0 shadow-none placeholder:text-muted-foreground"
             />
             <div className="flex justify-between mt-4">

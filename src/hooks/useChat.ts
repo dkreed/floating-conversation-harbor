@@ -76,7 +76,7 @@ export const useChat = () => {
         sessionId
       });
       
-      // Send message to webhook - using credentials: 'omit' to avoid CORS preflight
+      // Send message to webhook
       const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: { 
@@ -91,8 +91,17 @@ export const useChat = () => {
       
       console.log("Webhook response status:", response.status);
       
-      // Create a default bot message
-      let responseContent = "Thank you for your message. It was sent to the webhook successfully.";
+      // Parse the response JSON
+      const responseData = await response.json();
+      console.log("Webhook response data:", responseData);
+      
+      // Extract the message from the response
+      let responseContent = "Thank you for your message.";
+      
+      // Check if the response contains output
+      if (responseData && Array.isArray(responseData) && responseData.length > 0 && responseData[0].output) {
+        responseContent = responseData[0].output;
+      }
       
       // Add bot response to state
       const botMessage: Message = {
@@ -108,8 +117,8 @@ export const useChat = () => {
       await saveChatMessage(sessionId, botMessage.content, false, botMessage.timestamp);
       
       toast({
-        title: "Message Sent",
-        description: "Your message was sent to the webhook successfully.",
+        title: "Message Received",
+        description: "Your message was processed successfully.",
       });
     } catch (error) {
       console.error('Error sending message:', error);
@@ -128,7 +137,7 @@ export const useChat = () => {
       // Show error toast
       toast({
         title: "Error",
-        description: "Failed to send message. Please try again.",
+        description: "Failed to process message. Please try again.",
         variant: "destructive",
       });
     } finally {

@@ -5,44 +5,44 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
+    --background: 0 10% 5%;
     --foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;
+    --card: 0 10% 7%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 10% 3.9%;
+    --popover: 0 10% 5%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 217.2 91.2% 59.8%;
+    --primary: 0 80% 50%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 240 3.7% 15.9%;
+    --secondary: 0 15% 15%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 0 15% 15%;
+    --muted-foreground: 0 10% 70%;
 
-    --accent: 240 3.7% 15.9%;
+    --accent: 0 20% 20%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 217.2 91.2% 59.8%;
+    --border: 0 15% 20%;
+    --input: 0 15% 20%;
+    --ring: 0 80% 50%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 240 10% 3.9%;
+    --sidebar-background: 0 10% 5%;
     --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary: 0 80% 50%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent: 0 15% 15%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-border: 0 15% 20%;
+    --sidebar-ring: 0 80% 50%;
   }
 }
 
@@ -72,7 +72,7 @@
   }
   
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-400 via-purple-500 to-orange-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-red-400 via-red-500 to-red-300 bg-clip-text text-transparent;
   }
   
   .gradient-border {
@@ -85,7 +85,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(to right, #4f46e5, #7c3aed, #f97316);
+    background: linear-gradient(to right, #ff6b6b, #cc0000, #990000);
     -webkit-mask: 
       linear-gradient(#fff 0 0) content-box, 
       linear-gradient(#fff 0 0);
@@ -95,10 +95,10 @@
   }
 
   .gradient-bg {
-    @apply bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-orange-500/10;
+    @apply bg-gradient-to-br from-red-500/20 via-red-800/20 to-red-900/20;
   }
 
   .glass-panel {
-    @apply bg-black bg-opacity-20 backdrop-blur-md border border-white/5;
+    @apply bg-black bg-opacity-30 backdrop-blur-md border border-red-900/20;
   }
 }

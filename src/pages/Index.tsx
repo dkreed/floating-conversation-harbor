@@ -41,6 +41,8 @@ const Index = () => {
       <div className="absolute inset-0 overflow-hidden z-0">
         <div className="absolute top-[10%] right-[10%] w-64 h-64 bg-red-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-[20%] left-[5%] w-80 h-80 bg-pink-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-[40%] left-[30%] w-96 h-96 bg-pink-600/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-[10%] right-[20%] w-64 h-64 bg-red-600/5 rounded-full blur-3xl"></div>
       </div>
       
       <Navbar />
@@ -98,7 +100,7 @@ const Index = () => {
       {/* Chat Section - Added ID for scrolling */}
       <section id="chat-section" className="pb-12 px-4 max-w-3xl mx-auto relative z-10">
         {/* Chat Messages Area */}
-        <div className="glass-panel rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
+        <div className="bg-black/40 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
               <div>
@@ -112,7 +114,7 @@ const Index = () => {
           )}
           {isLoading && (
             <div className="flex w-full justify-start mb-4">
-              <div className="bg-secondary/60 backdrop-blur-sm text-secondary-foreground rounded-lg rounded-tl-none px-4 py-3 border border-red-900/30">
+              <div className="bg-[#221116]/80 backdrop-blur-sm text-white rounded-lg rounded-tl-none px-4 py-3 border border-red-900/40 shadow-md">
                 <Loader2 size={16} className="animate-spin" />
               </div>
             </div>
@@ -122,7 +124,7 @@ const Index = () => {
         
         {/* Chat Input Area */}
         <form onSubmit={handleSubmit} className="relative">
-          <div className="glass-panel rounded-b-xl p-4 border-t border-red-900/20">
+          <div className="bg-black/40 backdrop-blur-md border border-red-800/30 border-t-0 shadow-lg rounded-b-xl p-4">
             <Textarea 
               ref={textareaRef}
               value={input}
@@ -136,9 +138,9 @@ const Index = () => {
                 type="submit" 
                 disabled={isLoading || !input.trim()} 
                 className={cn(
-                  "h-16 px-12 text-lg rounded-full bg-gradient-to-r from-pink-500 to-red-600 hover:from-pink-600 hover:to-red-700 transition-all shadow-lg shadow-red-700/20 hover:shadow-red-700/40",
+                  "h-16 w-48 text-lg rounded-full bg-gradient-to-r from-pink-500 to-red-600 hover:from-pink-600 hover:to-red-700 transition-all shadow-lg shadow-red-700/20 hover:shadow-red-700/40",
                   "font-medium tracking-wide",
-                  "flex items-center gap-2",
+                  "flex items-center justify-center gap-2",
                   isLoading && "opacity-70"
                 )}
               >

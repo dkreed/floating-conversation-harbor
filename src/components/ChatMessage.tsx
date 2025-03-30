@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Message } from '@/hooks/useChat';
@@ -7,10 +8,29 @@ interface ChatMessageProps {
   message: Message;
 }
 
-// Function to detect and make URLs clickable without showing duplicate text
+// Function to detect and make URLs clickable without duplicate text
 const makeLinksClickable = (text: string) => {
   // Regular expression to identify URLs
   const urlRegex = /(https?:\/\/[^\s]+)/g;
+  
+  // If the text is just a URL or starts with "your best option that I found is" followed by a URL
+  const bestOptionRegex = /^your best option that (i|I) found is (https?:\/\/[^\s]+)$/;
+  const bestOptionMatch = text.trim().match(bestOptionRegex);
+  
+  if (bestOptionMatch) {
+    // Just return the URL as a clickable link
+    const url = bestOptionMatch[2];
+    return (
+      <a 
+        href={url} 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+      >
+        {url} <ExternalLink size={14} />
+      </a>
+    );
+  }
   
   // If the text is just a URL, return it as a clickable link
   if (text.trim().match(urlRegex) && text.trim().match(urlRegex)[0] === text.trim()) {
@@ -72,7 +92,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           "px-4 py-3 rounded-lg max-w-[80%]",
           message.isUser 
             ? "bg-primary text-primary-foreground rounded-tr-none" 
-            : "bg-secondary/60 backdrop-blur-sm text-secondary-foreground rounded-tl-none border border-red-900/30"
+            : "bg-[#221116]/80 backdrop-blur-sm text-white rounded-tl-none border border-red-900/40 shadow-md"
         )}
       >
         <p className="text-sm whitespace-pre-wrap">{makeLinksClickable(message.content)}</p>

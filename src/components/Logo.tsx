@@ -12,9 +12,9 @@ const Logo: React.FC = () => {
         {/* Inner circle */}
         <div className="absolute inset-[2px] rounded-full bg-background/80"></div>
         
-        {/* Camera icon */}
+        {/* Camera icon - Fixed padding */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <Camera className="w-4 h-4 text-white stroke-[2.5]" />
+          <Camera className="w-5 h-5 text-red-500" />
         </div>
         
         {/* Heart */}

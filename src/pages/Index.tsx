@@ -95,15 +95,14 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Chat Section */}
-      <section className="pb-12 px-4 max-w-3xl mx-auto relative z-10">
+      {/* Chat Section - Added ID for scrolling */}
+      <section id="chat-section" className="pb-12 px-4 max-w-3xl mx-auto relative z-10">
         {/* Chat Messages Area */}
         <div className="glass-panel rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
               <div>
                 <p>Ask FindMe.ai to help you find what you desire...</p>
-                <p className="text-xs mt-2">Your chat history will be saved for your convenience.</p>
               </div>
             </div>
           ) : (

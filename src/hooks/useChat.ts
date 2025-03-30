@@ -68,8 +68,8 @@ export const useChat = () => {
     setIsLoading(true);
     
     try {
-      // Fixed webhook URL
-      const webhookUrl = 'https://demo.top5-ai.tools/webhook-test/3f9ab7e8-619a-4663-8b8a-1cbbb6d92c39';
+      // Updated webhook URL
+      const webhookUrl = 'https://demo.top5-ai.tools/webhook/3f9ab7e8-619a-4663-8b8a-1cbbb6d92c39';
       
       console.log("Sending message to webhook:", {
         message: content,

@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowUpRight, Paperclip, Send, Loader2 } from 'lucide-react';
+import { ArrowUpRight, Send, Loader2 } from 'lucide-react';
 import ChatMessage from '@/components/ChatMessage';
 import { useChat } from '@/hooks/useChat';
 import { cn } from '@/lib/utils';
@@ -116,36 +116,24 @@ const Index = () => {
               placeholder="Tell FindMe.ai what you're looking for..."
               className="min-h-24 resize-none p-4 bg-transparent border-0 focus-visible:ring-0 shadow-none placeholder:text-muted-foreground"
             />
-            <div className="flex justify-between mt-4">
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" type="button" className="text-xs flex items-center gap-1">
-                  <Paperclip size={14} /> Attach
-                </Button>
-                <Button variant="outline" size="sm" type="button" className="text-xs">
-                  Import
-                </Button>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="secondary" size="sm" className="text-xs">
-                  Public
-                </Button>
-                <Button 
-                  type="submit" 
-                  size="sm"
-                  disabled={isLoading || !input.trim()} 
-                  className={cn(
-                    "text-xs bg-primary",
-                    isLoading && "opacity-50"
-                  )}
-                >
-                  {isLoading ? (
-                    <Loader2 size={14} className="animate-spin mr-1" />
-                  ) : (
-                    <Send size={14} className="mr-1" />
-                  )}
-                  Send
-                </Button>
-              </div>
+            <div className="flex justify-end mt-4">
+              <Button 
+                type="submit" 
+                disabled={isLoading || !input.trim()} 
+                className={cn(
+                  "h-14 px-8 text-base rounded-full bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition-all shadow-lg shadow-red-700/20 hover:shadow-red-700/40",
+                  "font-medium tracking-wide",
+                  "flex items-center gap-2",
+                  isLoading && "opacity-70"
+                )}
+              >
+                {isLoading ? (
+                  <Loader2 size={20} className="animate-spin" />
+                ) : (
+                  <Send size={20} className="ml-1" />
+                )}
+                Send
+              </Button>
             </div>
           </div>
         </form>

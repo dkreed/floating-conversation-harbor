@@ -2,10 +2,42 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Message } from '@/hooks/useChat';
+import { ExternalLink } from 'lucide-react';
 
 interface ChatMessageProps {
   message: Message;
 }
+
+// Function to detect and make URLs clickable
+const makeLinksClickable = (text: string) => {
+  // Regular expression to identify URLs
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  
+  // Split by URL matches
+  const parts = text.split(urlRegex);
+  const matches = text.match(urlRegex) || [];
+  
+  // Combine parts and matches into elements
+  const elements: React.ReactNode[] = [];
+  parts.forEach((part, i) => {
+    elements.push(part);
+    if (matches[i]) {
+      elements.push(
+        <a 
+          key={i}
+          href={matches[i]} 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+        >
+          {matches[i]} <ExternalLink size={14} />
+        </a>
+      );
+    }
+  });
+
+  return elements;
+};
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
   return (
@@ -30,7 +62,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             : "bg-secondary text-secondary-foreground rounded-tl-none"
         )}
       >
-        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+        <p className="text-sm whitespace-pre-wrap">{makeLinksClickable(message.content)}</p>
       </div>
     </div>
   );

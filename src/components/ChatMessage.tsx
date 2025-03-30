@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Message } from '@/hooks/useChat';
@@ -8,12 +7,26 @@ interface ChatMessageProps {
   message: Message;
 }
 
-// Function to detect and make URLs clickable
+// Function to detect and make URLs clickable without showing duplicate text
 const makeLinksClickable = (text: string) => {
   // Regular expression to identify URLs
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   
-  // Split by URL matches
+  // If the text is just a URL, return it as a clickable link
+  if (text.trim().match(urlRegex) && text.trim().match(urlRegex)[0] === text.trim()) {
+    return (
+      <a 
+        href={text.trim()} 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+      >
+        {text.trim()} <ExternalLink size={14} />
+      </a>
+    );
+  }
+  
+  // Otherwise, process the text to make embedded URLs clickable
   const parts = text.split(urlRegex);
   const matches = text.match(urlRegex) || [];
   
@@ -49,9 +62,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
     >
       {!message.isUser && (
         <div className="relative w-8 h-8 mr-2 flex-shrink-0 self-end">
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-orange-400 opacity-80"></div>
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-400 via-red-500 to-red-600 opacity-90"></div>
           <div className="absolute inset-[2px] bg-background rounded-full"></div>
-          <div className="absolute inset-[5px] rounded-t-full bg-gradient-to-br from-blue-400 via-purple-500 to-orange-400 rotate-45"></div>
+          <div className="absolute inset-[5px] rounded-t-full bg-gradient-to-br from-pink-400 via-red-500 to-red-600 rotate-45"></div>
         </div>
       )}
       <div 
@@ -59,7 +72,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           "px-4 py-3 rounded-lg max-w-[80%]",
           message.isUser 
             ? "bg-primary text-primary-foreground rounded-tr-none" 
-            : "bg-secondary text-secondary-foreground rounded-tl-none"
+            : "bg-secondary/60 backdrop-blur-sm text-secondary-foreground rounded-tl-none border border-red-900/30"
         )}
       >
         <p className="text-sm whitespace-pre-wrap">{makeLinksClickable(message.content)}</p>

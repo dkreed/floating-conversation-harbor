@@ -104,11 +104,19 @@ const Index = () => {
       {/* Chat Section - Added ID for scrolling */}
       <section id="chat-section" className="pb-12 px-4 max-w-3xl mx-auto relative z-10">
         {/* Chat Messages Area */}
-        <div className="bg-[#120507]/90 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
+        <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
-              <div>
-                <p className="text-lg">Ask FindMe.ai to help you find what you desire...</p>
+              <div className="w-full max-w-xs mx-auto">
+                <div className="mb-4 relative rounded-xl overflow-hidden shadow-lg">
+                  <img 
+                    src="/lovable-uploads/c94a80ee-6644-4e0f-b3d2-ee3906557554.png" 
+                    alt="FindMe.ai" 
+                    className="w-full h-auto object-cover rounded-xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                </div>
+                <p className="text-lg md:text-xl">Ask FindMe.ai to help you find what you desire...</p>
               </div>
             </div>
           ) : (
@@ -128,7 +136,7 @@ const Index = () => {
         
         {/* Chat Input Area */}
         <form onSubmit={handleSubmit} className="relative">
-          <div className="bg-[#120507]/90 backdrop-blur-md border border-red-800/30 border-t-0 shadow-lg rounded-b-xl p-4">
+          <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 border-t-0 shadow-lg rounded-b-xl p-4">
             <Textarea 
               ref={textareaRef}
               value={input}

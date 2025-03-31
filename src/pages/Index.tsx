@@ -111,11 +111,15 @@ const Index = () => {
               <div className="w-full max-w-xs mx-auto">
                 <div className="mb-4 relative rounded-xl overflow-hidden shadow-lg">
                   <img 
-                    src="/lovable-uploads/c94a80ee-6644-4e0f-b3d2-ee3906557554.png" 
+                    src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=750&ixlib=rb-4.0.3"
                     alt="FindMe.ai" 
                     className="w-full h-auto object-cover rounded-xl"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center pb-4">
+                    <div className="text-white text-sm font-medium px-3 py-1 bg-red-500/70 backdrop-blur-sm rounded-full">
+                      Ready to connect
+                    </div>
+                  </div>
                 </div>
                 <p className="text-lg md:text-xl">Ask FindMe.ai to help you find what you desire...</p>
               </div>

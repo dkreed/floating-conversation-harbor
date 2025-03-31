@@ -108,10 +108,10 @@ const Index = () => {
         <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
-              <div className="w-full max-w-xs mx-auto">
+              <div className="w-full max-w-md mx-auto"> {/* Increased max-width from xs to md */}
                 <div className="mb-4 relative rounded-xl overflow-hidden shadow-lg">
                   <img 
-                    src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=750&ixlib=rb-4.0.3"
+                    src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=1280&ixlib=rb-4.0.3"
                     alt="FindMe.ai" 
                     className="w-full h-auto object-cover rounded-xl"
                   />

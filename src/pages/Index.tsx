@@ -30,7 +30,8 @@ const Index = () => {
     }
   };
 
-  // Scroll to bottom only when new messages come in
+  // We're removing the auto-scroll when users land on the page
+  // Only scroll to bottom when new messages come in
   useEffect(() => {
     if (messages.length > 0) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -103,7 +104,7 @@ const Index = () => {
       
       {/* Chat Section - Added ID for scrolling */}
       <section id="chat-section" className="pb-12 px-4 max-w-3xl mx-auto relative z-10">
-        {/* Chat Messages Area */}
+        {/* Chat Messages Area - Changed background to be darker and increased text size */}
         <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">

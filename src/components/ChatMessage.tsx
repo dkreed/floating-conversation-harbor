@@ -92,10 +92,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           "px-4 py-3 rounded-lg max-w-[80%]",
           message.isUser 
             ? "bg-primary text-primary-foreground rounded-tr-none" 
-            : "bg-[#221116]/80 backdrop-blur-sm text-white rounded-tl-none border border-red-900/40 shadow-md"
+            : "bg-[#1D0D12]/90 backdrop-blur-md text-white rounded-tl-none border border-red-900/40 shadow-md"
         )}
       >
-        <p className="text-sm whitespace-pre-wrap">{makeLinksClickable(message.content)}</p>
+        <p className="text-base md:text-lg whitespace-pre-wrap">{makeLinksClickable(message.content)}</p>
       </div>
     </div>
   );

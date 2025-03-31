@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowUpRight, Send, Loader2, Heart, Camera } from 'lucide-react';
+import { ArrowUpRight, Send, Loader2, Heart, Webcam } from 'lucide-react';
 import ChatMessage from '@/components/ChatMessage';
 import { useChat } from '@/hooks/useChat';
 import { cn } from '@/lib/utils';
@@ -30,9 +30,11 @@ const Index = () => {
     }
   };
 
-  // Scroll to bottom when messages change
+  // Scroll to bottom only when new messages come in
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messages.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages]);
 
   return (
@@ -45,17 +47,19 @@ const Index = () => {
         <div className="absolute bottom-[10%] right-[20%] w-64 h-64 bg-red-600/5 rounded-full blur-3xl"></div>
       </div>
       
-      <Navbar />
+      <div className="pt-16"> {/* Added padding to account for fixed navbar */}
+        <Navbar />
+      </div>
       
       {/* Hero Section with reduced padding to make room for chat */}
-      <section className="pt-16 pb-8 px-4 md:px-6 max-w-7xl mx-auto relative z-10">
+      <section className="pt-8 pb-8 px-4 md:px-6 max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col items-center text-center">
           {/* Gradient Orb */}
           <div className="relative w-24 h-24 mb-8">
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-400 via-red-600 to-red-800 opacity-90 blur-sm shadow-lg shadow-red-600/30"></div>
             <div className="absolute inset-[6px] bg-background rounded-full"></div>
             <div className="absolute inset-0 flex items-center justify-center">
-              <Camera className="w-12 h-12 text-red-500/70" />
+              <Webcam className="w-12 h-12 text-red-500/70" />
             </div>
             <div className="absolute top-0 right-0">
               <Heart className="w-8 h-8 text-red-400 fill-red-400/70" />
@@ -100,11 +104,11 @@ const Index = () => {
       {/* Chat Section - Added ID for scrolling */}
       <section id="chat-section" className="pb-12 px-4 max-w-3xl mx-auto relative z-10">
         {/* Chat Messages Area */}
-        <div className="bg-black/40 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
+        <div className="bg-[#120507]/90 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
               <div>
-                <p>Ask FindMe.ai to help you find what you desire...</p>
+                <p className="text-lg">Ask FindMe.ai to help you find what you desire...</p>
               </div>
             </div>
           ) : (
@@ -114,7 +118,7 @@ const Index = () => {
           )}
           {isLoading && (
             <div className="flex w-full justify-start mb-4">
-              <div className="bg-[#221116]/80 backdrop-blur-sm text-white rounded-lg rounded-tl-none px-4 py-3 border border-red-900/40 shadow-md">
+              <div className="bg-[#1D0D12]/90 backdrop-blur-sm text-white rounded-lg rounded-tl-none px-4 py-3 border border-red-900/40 shadow-md">
                 <Loader2 size={16} className="animate-spin" />
               </div>
             </div>
@@ -124,14 +128,14 @@ const Index = () => {
         
         {/* Chat Input Area */}
         <form onSubmit={handleSubmit} className="relative">
-          <div className="bg-black/40 backdrop-blur-md border border-red-800/30 border-t-0 shadow-lg rounded-b-xl p-4">
+          <div className="bg-[#120507]/90 backdrop-blur-md border border-red-800/30 border-t-0 shadow-lg rounded-b-xl p-4">
             <Textarea 
               ref={textareaRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleTextareaKeyDown}
               placeholder="Tell FindMe.ai what you're looking for..."
-              className="min-h-24 resize-none p-4 bg-transparent border-0 focus-visible:ring-0 shadow-none placeholder:text-muted-foreground"
+              className="min-h-24 resize-none p-4 text-base md:text-lg bg-transparent border-0 focus-visible:ring-0 shadow-none placeholder:text-muted-foreground"
             />
             <div className="flex justify-center mt-6">
               <Button 

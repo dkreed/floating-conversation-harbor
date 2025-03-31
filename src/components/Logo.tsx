@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Heart, Camera } from 'lucide-react';
+import { Heart, Webcam } from 'lucide-react';
 
 const Logo: React.FC = () => {
   return (
@@ -12,9 +12,9 @@ const Logo: React.FC = () => {
         {/* Inner circle */}
         <div className="absolute inset-[2px] rounded-full bg-background/80"></div>
         
-        {/* Camera icon - Fixed padding */}
+        {/* Webcam icon - Fixed padding */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <Camera className="w-5 h-5 text-red-500" />
+          <Webcam className="w-4 h-4 text-red-500" strokeWidth={2.5} />
         </div>
         
         {/* Heart */}

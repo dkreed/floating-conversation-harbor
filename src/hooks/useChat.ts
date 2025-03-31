@@ -20,6 +20,8 @@ export const useChat = () => {
   useEffect(() => {
     const initSession = async () => {
       try {
+        // Remove any existing session ID to ensure a new one is created each time
+        localStorage.removeItem('chat_session_id');
         const id = await createChatSession();
         setSessionId(id);
         

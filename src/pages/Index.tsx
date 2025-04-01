@@ -108,20 +108,17 @@ const Index = () => {
         <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
-              <div className="w-full max-w-md mx-auto"> {/* Increased max-width from xs to md */}
-                <div className="mb-4 relative rounded-xl overflow-hidden shadow-lg">
-                  <img 
-                    src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=1280&ixlib=rb-4.0.3"
-                    alt="FindMe.ai" 
-                    className="w-full h-auto object-cover rounded-xl"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center pb-4">
-                    <div className="text-white text-sm font-medium px-3 py-1 bg-red-500/70 backdrop-blur-sm rounded-full">
-                      Ready to connect
-                    </div>
+              <div className="w-full h-full relative">
+                <img 
+                  src="/lovable-uploads/178b1606-169a-4480-973a-a72f0b996cbb.png" 
+                  alt="FindMe.ai" 
+                  className="w-full h-full object-contain"
+                />
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                  <div className="text-white text-sm font-medium px-3 py-1 bg-red-500/70 backdrop-blur-sm rounded-full">
+                    Ready to connect
                   </div>
                 </div>
-                <p className="text-lg md:text-xl">Ask FindMe.ai to help you find what you desire...</p>
               </div>
             </div>
           ) : (

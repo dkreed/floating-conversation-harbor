@@ -27,12 +27,13 @@ const makeLinksClickable = (text: string) => {
     );
   }
   
-  // Enhanced regex to match more intro phrases followed by URL patterns
-  const introPhrasesRegex = /^(?:(?:your|the) best option|here is what|check out|take a look at|I recommend|I found)(?:\s+\w+)*(?:\s+for\s+you(?:\s+\w+)*)?(?:\s*:|\s+is)\s*(https?:\/\/[^\s]+).*$/i;
+  // Match common intro phrases followed by URLs 
+  // This covers phrases like "The best option that I found for you today is: https://..."
+  const introPhrasesRegex = /^(?:.*(?:best|good|great) option|.*found for you|.*check out|.*recommend|.*for you)(?:.*?)(?:is:?|:)\s*(https?:\/\/[^\s]+).*$/i;
   const introMatch = text.trim().match(introPhrasesRegex);
   
   if (introMatch) {
-    // Just return the URL as a clickable link without the intro text
+    // Just return the URL as a clickable link without the intro text or duplicate URL
     const url = introMatch[1];
     return (
       <a 
@@ -46,7 +47,7 @@ const makeLinksClickable = (text: string) => {
     );
   }
   
-  // Otherwise, process the text to make embedded URLs clickable
+  // For other text with embedded URLs
   const parts = text.split(urlRegex);
   const matches = text.match(urlRegex) || [];
   

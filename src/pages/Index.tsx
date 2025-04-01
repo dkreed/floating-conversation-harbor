@@ -110,7 +110,7 @@ const Index = () => {
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
               <div className="w-full h-full relative">
                 <img 
-                  src="/lovable-uploads/ad7eb048-1771-408b-bb6f-b761deedba5c.png" 
+                  src="/lovable-uploads/86cf002a-f4af-43d3-933c-f2093dbf6e64.png" 
                   alt="FindMe.ai" 
                   className="w-full h-full object-cover"
                   onError={(e) => {

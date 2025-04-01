@@ -27,13 +27,13 @@ const makeLinksClickable = (text: string) => {
     );
   }
   
-  // Improved regex to match various intro phrases followed by URL
-  const bestOptionRegex = /^(your best option that (i|I) found is|the best option that (i|I) found for you today is|here is what (i|I) found for you|check out this|I recommend this):\s*(https?:\/\/[^\s]+)(.*)$/i;
-  const bestOptionMatch = text.trim().match(bestOptionRegex);
+  // Enhanced regex to match more intro phrases followed by URL patterns
+  const introPhrasesRegex = /^(?:(?:your|the) best option|here is what|check out|take a look at|I recommend|I found)(?:\s+\w+)*(?:\s+for\s+you(?:\s+\w+)*)?(?:\s*:|\s+is)\s*(https?:\/\/[^\s]+).*$/i;
+  const introMatch = text.trim().match(introPhrasesRegex);
   
-  if (bestOptionMatch) {
+  if (introMatch) {
     // Just return the URL as a clickable link without the intro text
-    const url = bestOptionMatch[6];
+    const url = introMatch[1];
     return (
       <a 
         href={url} 

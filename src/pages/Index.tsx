@@ -110,9 +110,14 @@ const Index = () => {
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
               <div className="w-full h-full relative">
                 <img 
-                  src="/lovable-uploads/178b1606-169a-4480-973a-a72f0b996cbb.png" 
+                  src="/lovable-uploads/ad7eb048-1771-408b-bb6f-b761deedba5c.png" 
                   alt="FindMe.ai" 
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://i.imgur.com/JScaxVB.jpg"; // Fallback image URL
+                    console.log("Image failed to load, using fallback");
+                  }}
                 />
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
                   <div className="text-white text-sm font-medium px-3 py-1 bg-red-500/70 backdrop-blur-sm rounded-full">

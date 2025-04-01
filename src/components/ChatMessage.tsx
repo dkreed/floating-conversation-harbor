@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Message } from '@/hooks/useChat';
@@ -26,13 +27,13 @@ const makeLinksClickable = (text: string) => {
     );
   }
   
-  // If the text starts with common phrases followed by URL, extract just the URL
-  const bestOptionRegex = /^(your best option that (i|I) found is|the best option that (i|I) found for you today is):\s*(https?:\/\/[^\s]+)(.*)$/i;
+  // Improved regex to match various intro phrases followed by URL
+  const bestOptionRegex = /^(your best option that (i|I) found is|the best option that (i|I) found for you today is|here is what (i|I) found for you|check out this|I recommend this):\s*(https?:\/\/[^\s]+)(.*)$/i;
   const bestOptionMatch = text.trim().match(bestOptionRegex);
   
   if (bestOptionMatch) {
-    // Just return the URL as a clickable link
-    const url = bestOptionMatch[4];
+    // Just return the URL as a clickable link without the intro text
+    const url = bestOptionMatch[6];
     return (
       <a 
         href={url} 

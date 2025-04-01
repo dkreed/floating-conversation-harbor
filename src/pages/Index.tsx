@@ -112,7 +112,7 @@ const Index = () => {
                 <img 
                   src="/lovable-uploads/178b1606-169a-4480-973a-a72f0b996cbb.png" 
                   alt="FindMe.ai" 
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
                   <div className="text-white text-sm font-medium px-3 py-1 bg-red-500/70 backdrop-blur-sm rounded-full">

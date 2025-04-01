@@ -13,22 +13,25 @@ const makeLinksClickable = (text: string) => {
   // Regular expression to identify URLs
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   
-  // If the text is just a URL or starts with "your best option that I found is" followed by a URL
-  const bestOptionRegex = /^your best option that (i|I) found is (https?:\/\/[^\s]+)$/;
-  const bestOptionMatch = text.trim().match(bestOptionRegex);
+  // Special case: message is just "best option" followed by a URL
+  const bestOptionRegex = /^(the best option that (i|I) found for you today is:?\s*\n*)(https?:\/\/[^\s]+)(.*)$/is;
+  const bestOptionMatch = text.match(bestOptionRegex);
   
   if (bestOptionMatch) {
-    // Just return the URL as a clickable link
-    const url = bestOptionMatch[2];
+    const url = bestOptionMatch[3];
     return (
-      <a 
-        href={url} 
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
-      >
-        {url} <ExternalLink size={14} />
-      </a>
+      <>
+        {bestOptionMatch[1]}
+        <a 
+          href={url} 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+        >
+          {url} <ExternalLink size={14} />
+        </a>
+        {bestOptionMatch[4]}
+      </>
     );
   }
   
@@ -46,7 +49,7 @@ const makeLinksClickable = (text: string) => {
     );
   }
   
-  // Otherwise, process the text to make embedded URLs clickable
+  // For regular text with URLs embedded
   const parts = text.split(urlRegex);
   const matches = text.match(urlRegex) || [];
   

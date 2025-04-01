@@ -13,6 +13,25 @@ const makeLinksClickable = (text: string) => {
   // Regular expression to identify URLs
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   
+  // If the text is just a URL or starts with "your best option that I found is" followed by a URL
+  const bestOptionRegex = /^your best option that (i|I) found is (https?:\/\/[^\s]+)$/;
+  const bestOptionMatch = text.trim().match(bestOptionRegex);
+  
+  if (bestOptionMatch) {
+    // Just return the URL as a clickable link
+    const url = bestOptionMatch[2];
+    return (
+      <a 
+        href={url} 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+      >
+        {url} <ExternalLink size={14} />
+      </a>
+    );
+  }
+  
   // If the text is just a URL, return it as a clickable link
   if (text.trim().match(urlRegex) && text.trim().match(urlRegex)[0] === text.trim()) {
     return (
@@ -27,27 +46,7 @@ const makeLinksClickable = (text: string) => {
     );
   }
   
-  // Match common intro phrases followed by URLs 
-  // This covers phrases like "The best option that I found for you today is: https://..."
-  const introPhrasesRegex = /^(?:.*(?:best|good|great) option|.*found for you|.*check out|.*recommend|.*for you)(?:.*?)(?:is:?|:)\s*(https?:\/\/[^\s]+).*$/i;
-  const introMatch = text.trim().match(introPhrasesRegex);
-  
-  if (introMatch) {
-    // Just return the URL as a clickable link without the intro text or duplicate URL
-    const url = introMatch[1];
-    return (
-      <a 
-        href={url} 
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
-      >
-        {url} <ExternalLink size={14} />
-      </a>
-    );
-  }
-  
-  // For other text with embedded URLs
+  // Otherwise, process the text to make embedded URLs clickable
   const parts = text.split(urlRegex);
   const matches = text.match(urlRegex) || [];
   

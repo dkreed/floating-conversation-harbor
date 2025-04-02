@@ -12,8 +12,8 @@ export interface Message {
   createdAt: Date;
 }
 
-// Define the webhook URL - this should be configured properly for your environment
-const WEBHOOK_URL = "https://api.vibepicker.pro/chat"; // Direct URL to the API endpoint
+// Define the webhook URL with the provided URL
+const WEBHOOK_URL = "https://demo.top5-ai.tools/webhook/3f9ab7e8-619a-4663-8b8a-1cbbb6d92c39";
 
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -56,7 +56,7 @@ export function useChat() {
       
       // Set a timeout for the fetch operation
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
       
       // Call webhook with the message content
       const response = await fetch(WEBHOOK_URL, {

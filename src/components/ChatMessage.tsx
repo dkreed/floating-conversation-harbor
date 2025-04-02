@@ -80,14 +80,16 @@ const makeLinksClickable = (text: string) => {
 };
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
+  const isUser = message.role === "user";
+  
   return (
     <div 
       className={cn(
         "flex w-full mb-4",
-        message.isUser ? "justify-end" : "justify-start"
+        isUser ? "justify-end" : "justify-start"
       )}
     >
-      {!message.isUser && (
+      {!isUser && (
         <div className="relative w-8 h-8 mr-2 flex-shrink-0 self-end">
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-400 via-red-500 to-red-600 opacity-90"></div>
           <div className="absolute inset-[2px] bg-background rounded-full"></div>
@@ -97,7 +99,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       <div 
         className={cn(
           "px-4 py-3 rounded-lg max-w-[80%]",
-          message.isUser 
+          isUser 
             ? "bg-primary text-primary-foreground rounded-tr-none" 
             : "bg-[#1D0D12]/90 backdrop-blur-md text-white rounded-tl-none border border-red-900/40 shadow-md"
         )}

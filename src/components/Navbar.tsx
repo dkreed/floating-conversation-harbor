@@ -1,9 +1,18 @@
 
 import React from 'react';
 import Logo from './Logo';
-import { Github, Twitter } from 'lucide-react';
+import { Github, Twitter, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
+import { cn } from "@/lib/utils";
 
 const Navbar: React.FC = () => {
   const scrollToChat = () => {
@@ -21,7 +30,42 @@ const Navbar: React.FC = () => {
         </Link>
         <div className="hidden md:flex items-center gap-6">
           <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy</Link>
-          <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Learn</a>
+          
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="text-sm text-muted-foreground hover:text-foreground transition-colors bg-transparent">Cam Reviews</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 p-4 w-[200px]">
+                    <li className="row-span-1">
+                      <NavigationMenuLink asChild>
+                        <a
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md hover:bg-accent"
+                          href="#"
+                        >
+                          <span className="text-sm font-medium text-foreground">
+                            Top Free Cams Reviewed
+                          </span>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                    <li className="row-span-1">
+                      <NavigationMenuLink asChild>
+                        <a
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-4 no-underline outline-none focus:shadow-md hover:bg-accent"
+                          href="#"
+                        >
+                          <span className="text-sm font-medium text-foreground">
+                            Top Paid Cams Reviewed
+                          </span>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
       </div>
       <div className="flex items-center gap-4">

@@ -62,7 +62,7 @@ const Privacy = () => {
             
             <section>
               <h2 className="text-xl font-semibold mb-3 text-foreground">8. Contact Us</h2>
-              <p>If you have any questions about this privacy policy or our privacy practices, please contact us at privacy@vibepicker.pro.</p>
+              <p>If you have any questions about this privacy policy or our privacy practices, please contact us at privacy@vibepicker.com.</p>
             </section>
           </div>
         </div>

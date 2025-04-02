@@ -13,7 +13,29 @@ const makeLinksClickable = (text: string) => {
   // Regular expression to identify URLs
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   
-  // Check if text is just a URL
+  // Special case: message is just "best option" followed by a URL
+  const bestOptionRegex = /^(the best option that (i|I) found for you today is:?\s*\n*)(https?:\/\/[^\s]+)(.*)$/is;
+  const bestOptionMatch = text.match(bestOptionRegex);
+  
+  if (bestOptionMatch) {
+    const url = bestOptionMatch[3];
+    return (
+      <>
+        {bestOptionMatch[1]}
+        <a 
+          href={url} 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+        >
+          {url} <ExternalLink size={14} />
+        </a>
+        {bestOptionMatch[4]}
+      </>
+    );
+  }
+  
+  // If the text is just a URL, return it as a clickable link
   if (text.trim().match(urlRegex) && text.trim().match(urlRegex)[0] === text.trim()) {
     return (
       <a 
@@ -24,32 +46,6 @@ const makeLinksClickable = (text: string) => {
       >
         {text.trim()} <ExternalLink size={14} />
       </a>
-    );
-  }
-  
-  // Special case for responses that include "the best option" followed by a URL
-  // We need to extract just the URL part
-  const bestOptionRegex = /^.*?(https?:\/\/[^\s]+).*?$/is;
-  const bestOptionMatch = text.match(bestOptionRegex);
-  
-  if (bestOptionMatch && bestOptionMatch[1]) {
-    const url = bestOptionMatch[1];
-    const prependText = text.substring(0, text.indexOf(url));
-    const appendText = text.substring(text.indexOf(url) + url.length);
-    
-    return (
-      <>
-        {prependText && <span>{prependText}</span>}
-        <a 
-          href={url} 
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
-        >
-          {url} <ExternalLink size={14} />
-        </a>
-        {appendText && <span>{appendText}</span>}
-      </>
     );
   }
   

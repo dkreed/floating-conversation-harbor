@@ -27,7 +27,7 @@ const Privacy = () => {
           <div className="space-y-6 text-muted-foreground">
             <section>
               <h2 className="text-xl font-semibold mb-3 text-foreground">1. Introduction</h2>
-              <p>Welcome to FindMe.ai. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
+              <p>Welcome to VibePicker. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
             </section>
             
             <section>
@@ -62,7 +62,7 @@ const Privacy = () => {
             
             <section>
               <h2 className="text-xl font-semibold mb-3 text-foreground">8. Contact Us</h2>
-              <p>If you have any questions about this privacy policy or our privacy practices, please contact us at privacy@findme.ai.</p>
+              <p>If you have any questions about this privacy policy or our privacy practices, please contact us at privacy@vibepicker.pro.</p>
             </section>
           </div>
         </div>

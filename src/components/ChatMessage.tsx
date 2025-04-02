@@ -13,29 +13,7 @@ const makeLinksClickable = (text: string) => {
   // Regular expression to identify URLs
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   
-  // Special case: message is just "best option" followed by a URL
-  const bestOptionRegex = /^(the best option that (i|I) found for you today is:?\s*\n*)(https?:\/\/[^\s]+)(.*)$/is;
-  const bestOptionMatch = text.match(bestOptionRegex);
-  
-  if (bestOptionMatch) {
-    const url = bestOptionMatch[3];
-    return (
-      <>
-        {bestOptionMatch[1]}
-        <a 
-          href={url} 
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
-        >
-          {url} <ExternalLink size={14} />
-        </a>
-        {bestOptionMatch[4]}
-      </>
-    );
-  }
-  
-  // If the text is just a URL, return it as a clickable link
+  // Check if text is just a URL
   if (text.trim().match(urlRegex) && text.trim().match(urlRegex)[0] === text.trim()) {
     return (
       <a 
@@ -46,6 +24,32 @@ const makeLinksClickable = (text: string) => {
       >
         {text.trim()} <ExternalLink size={14} />
       </a>
+    );
+  }
+  
+  // Special case for responses that include "the best option" followed by a URL
+  // We need to extract just the URL part
+  const bestOptionRegex = /^.*?(https?:\/\/[^\s]+).*?$/is;
+  const bestOptionMatch = text.match(bestOptionRegex);
+  
+  if (bestOptionMatch && bestOptionMatch[1]) {
+    const url = bestOptionMatch[1];
+    const prependText = text.substring(0, text.indexOf(url));
+    const appendText = text.substring(text.indexOf(url) + url.length);
+    
+    return (
+      <>
+        {prependText && <span>{prependText}</span>}
+        <a 
+          href={url} 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+        >
+          {url} <ExternalLink size={14} />
+        </a>
+        {appendText && <span>{appendText}</span>}
+      </>
     );
   }
   
@@ -76,14 +80,16 @@ const makeLinksClickable = (text: string) => {
 };
 
 const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
+  const isUser = message.role === "user";
+  
   return (
     <div 
       className={cn(
         "flex w-full mb-4",
-        message.isUser ? "justify-end" : "justify-start"
+        isUser ? "justify-end" : "justify-start"
       )}
     >
-      {!message.isUser && (
+      {!isUser && (
         <div className="relative w-8 h-8 mr-2 flex-shrink-0 self-end">
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-400 via-red-500 to-red-600 opacity-90"></div>
           <div className="absolute inset-[2px] bg-background rounded-full"></div>
@@ -93,7 +99,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       <div 
         className={cn(
           "px-4 py-3 rounded-lg max-w-[80%]",
-          message.isUser 
+          isUser 
             ? "bg-primary text-primary-foreground rounded-tr-none" 
             : "bg-[#1D0D12]/90 backdrop-blur-md text-white rounded-tl-none border border-red-900/40 shadow-md"
         )}

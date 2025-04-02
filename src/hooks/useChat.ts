@@ -1,122 +1,151 @@
 
-import { useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
-import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect, useCallback } from 'react';
+import { createChatSession, saveChatMessage, getChatHistory } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 
-export type MessageRole = "system" | "user" | "assistant";
-
-export interface Message {
+export type Message = {
   id: string;
   content: string;
-  role: MessageRole;
-  createdAt: Date;
-}
+  isUser: boolean;
+  timestamp: string;
+};
 
-// Define the webhook URL with the provided URL
-const WEBHOOK_URL = "https://demo.top5-ai.tools/webhook/3f9ab7e8-619a-4663-8b8a-1cbbb6d92c39";
-
-export function useChat() {
+export const useChat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const { toast } = useToast();
-  
-  // Generate a unique client ID to identify this chat session
-  const clientId = useState(() => uuidv4())[0];
 
-  // Pre-defined responses for fallback when the webhook is unavailable
-  const fallbackResponses = [
-    "I found some matches based on your request! Check them out below.",
-    "Here are some suggestions that might interest you!",
-    "I've found several options that match what you're looking for.",
-    "Based on your preferences, here are some recommendations.",
-    "Here are some top picks for you to explore!"
-  ];
-
-  const getFallbackResponse = (query: string) => {
-    const randomIndex = Math.floor(Math.random() * fallbackResponses.length);
-    return fallbackResponses[randomIndex] + ` (Search query: "${query}")`;
-  };
-
-  const sendMessage = async (content: string) => {
-    if (!content.trim()) return;
-    
-    // Add user message
-    const userMessage: Message = {
-      id: uuidv4(),
-      content,
-      role: "user",
-      createdAt: new Date(),
+  // Initialize chat session
+  useEffect(() => {
+    const initSession = async () => {
+      try {
+        // Remove any existing session ID to ensure a new one is created each time
+        localStorage.removeItem('chat_session_id');
+        const id = await createChatSession();
+        setSessionId(id);
+        
+        // Load chat history
+        const history = await getChatHistory(id);
+        if (history && history.length > 0) {
+          const formattedHistory = history.map(msg => ({
+            id: msg.id,
+            content: msg.message,
+            isUser: msg.is_user,
+            timestamp: msg.timestamp
+          }));
+          setMessages(formattedHistory);
+        }
+      } catch (error) {
+        console.error("Error initializing chat session:", error);
+        toast({
+          title: "Error",
+          description: "Could not initialize chat. Please refresh and try again.",
+          variant: "destructive",
+        });
+      }
     };
     
-    setMessages((prev) => [...prev, userMessage]);
+    initSession();
+  }, [toast]);
+
+  const sendMessage = useCallback(async (content: string) => {
+    if (!content.trim() || !sessionId) return;
+    
+    // Create a new message object
+    const userMessage: Message = {
+      id: crypto.randomUUID(),
+      content,
+      isUser: true,
+      timestamp: new Date().toISOString()
+    };
+    
+    // Add message to state
+    setMessages(prev => [...prev, userMessage]);
+    
+    // Save message to Supabase
+    await saveChatMessage(sessionId, content, true, userMessage.timestamp);
+    
+    // Start loading state for bot response
     setIsLoading(true);
     
     try {
-      console.log("Sending message to webhook:", content);
+      // Updated webhook URL
+      const webhookUrl = 'https://demo.top5-ai.tools/webhook/3f9ab7e8-619a-4663-8b8a-1cbbb6d92c39';
       
-      // Set a timeout for the fetch operation
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      console.log("Sending message to webhook:", {
+        message: content,
+        sessionId
+      });
       
-      // Call webhook with the message content
-      const response = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Origin": window.location.origin,
+      // Send message to webhook
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify({ 
           message: content,
-          userId: clientId
-        }),
-        signal: controller.signal
+          sessionId
+        })
       });
       
-      clearTimeout(timeoutId);
+      console.log("Webhook response status:", response.status);
       
-      if (!response.ok) {
-        throw new Error(`Webhook returned status ${response.status}`);
+      // Parse the response JSON
+      const responseData = await response.json();
+      console.log("Webhook response data:", responseData);
+      
+      // Extract the message from the response
+      let responseContent = "Thank you for your message.";
+      
+      // Check if the response contains output
+      if (responseData && Array.isArray(responseData) && responseData.length > 0 && responseData[0].output) {
+        responseContent = responseData[0].output;
       }
       
-      // Parse the response from the webhook
-      const data = await response.json();
-      
-      const assistantMessage: Message = {
-        id: uuidv4(),
-        content: data.response || getFallbackResponse(content),
-        role: "assistant",
-        createdAt: new Date(),
+      // Add bot response to state
+      const botMessage: Message = {
+        id: crypto.randomUUID(),
+        content: responseContent,
+        isUser: false,
+        timestamp: new Date().toISOString()
       };
       
-      setMessages((prev) => [...prev, assistantMessage]);
+      setMessages(prev => [...prev, botMessage]);
       
-    } catch (error) {
-      console.error("Error sending message to webhook:", error);
+      // Save bot message to Supabase
+      await saveChatMessage(sessionId, botMessage.content, false, botMessage.timestamp);
       
-      // Fallback to the simulated response if webhook fails
-      const assistantMessage: Message = {
-        id: uuidv4(),
-        content: getFallbackResponse(content),
-        role: "assistant",
-        createdAt: new Date(),
-      };
-      
-      setMessages((prev) => [...prev, assistantMessage]);
-      
-      // Notify the user about the webhook failure
       toast({
-        title: "Connection issue",
-        description: "Could not connect to server. Using fallback responses instead.",
+        title: "Message Received",
+        description: "Your message was processed successfully.",
+      });
+    } catch (error) {
+      console.error('Error sending message:', error);
+      
+      // Add error message
+      const errorMessage: Message = {
+        id: crypto.randomUUID(),
+        content: "Sorry, there was an error processing your message. Please try again.",
+        isUser: false,
+        timestamp: new Date().toISOString()
+      };
+      
+      setMessages(prev => [...prev, errorMessage]);
+      await saveChatMessage(sessionId, errorMessage.content, false, errorMessage.timestamp);
+      
+      // Show error toast
+      toast({
+        title: "Error",
+        description: "Failed to process message. Please try again.",
         variant: "destructive",
       });
     } finally {
       setIsLoading(false);
     }
-  };
-  
-  return {
-    messages,
-    isLoading,
-    sendMessage,
-  };
-}
+  }, [sessionId, toast]);
+
+  return { messages, isLoading, sendMessage };
+};

@@ -1,18 +1,9 @@
 
 import React from 'react';
 import Logo from './Logo';
-import { Github, Twitter, ChevronDown } from 'lucide-react';
+import { Github, Twitter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 
 const Navbar: React.FC = () => {
   const scrollToChat = () => {
@@ -30,32 +21,7 @@ const Navbar: React.FC = () => {
         </Link>
         <div className="hidden md:flex items-center gap-6">
           <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy</Link>
-          
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-sm text-muted-foreground hover:text-foreground bg-transparent h-auto p-0">
-                  Cam Reviews
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="p-2 w-48">
-                    <Link 
-                      to="/free-cams" 
-                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    >
-                      <div className="text-sm font-medium">Top Free Cams Reviewed</div>
-                    </Link>
-                    <Link 
-                      to="/paid-cams" 
-                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    >
-                      <div className="text-sm font-medium">Top Paid Cams Reviewed</div>
-                    </Link>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+          <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Learn</a>
         </div>
       </div>
       <div className="flex items-center gap-4">

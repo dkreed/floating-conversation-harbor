@@ -7,7 +7,8 @@ import { ArrowUpRight, Send, Loader2, Heart, Webcam } from 'lucide-react';
 import ChatMessage from '@/components/ChatMessage';
 import { useChat } from '@/hooks/useChat';
 import { cn } from '@/lib/utils';
-import { Toaster } from '@/components/ui/toaster';
+// Remove the redundant import since Toaster is already included at App level
+// import { Toaster } from '@/components/ui/toaster';
 
 const Index = () => {
   const [input, setInput] = useState('');
@@ -175,8 +176,7 @@ const Index = () => {
         </form>
       </section>
       
-      {/* Toast notifications */}
-      <Toaster />
+      {/* Remove the Toaster component from here since it's now in App.tsx */}
     </div>
   );
 };

@@ -18,17 +18,16 @@ export function useSupabaseChat() {
         existingSessionId = uuidv4();
         localStorage.setItem('chat_session_id', existingSessionId);
         
-        // In a real implementation, you would create a new session in Supabase
+        // Create a new session in Supabase
         try {
-          const { data, error } = await supabase
+          const { error } = await supabase
             .from('sessions')
-            .insert([{ id: existingSessionId }])
-            .select();
+            .insert([{ id: existingSessionId }]);
             
           if (error) {
             console.error('Error creating session:', error);
           } else {
-            console.log('Created new chat session in Supabase:', data);
+            console.log('Created new chat session in Supabase');
           }
         } catch (err) {
           console.error('Failed to create session in Supabase:', err);
@@ -47,7 +46,7 @@ export function useSupabaseChat() {
     if (!sessionId) return false;
     
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('messages')
         .insert([{
           id: message.id,
@@ -69,9 +68,38 @@ export function useSupabaseChat() {
     }
   };
 
+  // Function to load chat messages from Supabase for the current session
+  const loadMessages = async (): Promise<Message[]> => {
+    if (!sessionId) return [];
+    
+    try {
+      const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: true });
+        
+      if (error) {
+        console.error('Error loading messages from Supabase:', error);
+        return [];
+      }
+      
+      return data.map((item: any) => ({
+        id: item.id,
+        content: item.content,
+        role: item.role as MessageRole,
+        createdAt: new Date(item.created_at)
+      }));
+    } catch (err) {
+      console.error('Failed to load messages from Supabase:', err);
+      return [];
+    }
+  };
+
   return {
     sessionId,
     isInitialized,
-    saveMessage
+    saveMessage,
+    loadMessages
   };
 }

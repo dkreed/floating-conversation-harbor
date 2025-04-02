@@ -1,8 +1,7 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { useToast } from "@/hooks/use-toast";
-import { useSupabaseChat } from "./useSupabaseChat";
 
 export type MessageRole = "system" | "user" | "assistant";
 
@@ -19,24 +18,10 @@ const WEBHOOK_URL = "https://api.vibepicker.pro/chat"; // Replace with your actu
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const { toast } = useToast();
-  const { sessionId, isInitialized, saveMessage, loadMessages } = useSupabaseChat();
-
-  // Load chat history when the component mounts and session is initialized
-  useEffect(() => {
-    if (isInitialized && isInitialLoad) {
-      const fetchChatHistory = async () => {
-        const chatHistory = await loadMessages();
-        if (chatHistory.length > 0) {
-          setMessages(chatHistory);
-        }
-        setIsInitialLoad(false);
-      };
-      
-      fetchChatHistory();
-    }
-  }, [isInitialized, isInitialLoad, loadMessages]);
+  
+  // Generate a unique client ID to identify this chat session
+  const clientId = useState(() => uuidv4())[0];
 
   const sendMessage = async (content: string) => {
     if (!content.trim()) return;
@@ -52,9 +37,6 @@ export function useChat() {
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
     
-    // Save user message to Supabase
-    await saveMessage(userMessage);
-    
     try {
       console.log("Sending message to webhook:", content);
       
@@ -66,7 +48,7 @@ export function useChat() {
         },
         body: JSON.stringify({ 
           message: content,
-          userId: sessionId || uuidv4()
+          userId: clientId
         }),
       });
       
@@ -86,9 +68,6 @@ export function useChat() {
       
       setMessages((prev) => [...prev, assistantMessage]);
       
-      // Save assistant message to Supabase
-      await saveMessage(assistantMessage);
-      
     } catch (error) {
       console.error("Error sending message to webhook:", error);
       
@@ -101,9 +80,6 @@ export function useChat() {
       };
       
       setMessages((prev) => [...prev, assistantMessage]);
-      
-      // Save fallback assistant message to Supabase
-      await saveMessage(assistantMessage);
       
       // Optional: Notify the user about the webhook failure
       toast({

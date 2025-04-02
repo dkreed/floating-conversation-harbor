@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
@@ -39,12 +40,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative">
-      {/* Background elements */}
+      {/* Background elements - enhanced for darker red */}
       <div className="absolute inset-0 overflow-hidden z-0">
-        <div className="absolute top-[10%] right-[10%] w-64 h-64 bg-red-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-[20%] left-[5%] w-80 h-80 bg-pink-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-[40%] left-[30%] w-96 h-96 bg-pink-600/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-[10%] right-[20%] w-64 h-64 bg-red-600/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-[10%] right-[10%] w-64 h-64 bg-red-700/15 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-[20%] left-[5%] w-80 h-80 bg-red-600/15 rounded-full blur-3xl"></div>
+        <div className="absolute top-[40%] left-[30%] w-96 h-96 bg-red-800/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-[10%] right-[20%] w-64 h-64 bg-red-900/15 rounded-full blur-3xl"></div>
       </div>
       
       <div className="pt-16"> {/* Added padding to account for fixed navbar */}
@@ -103,18 +104,18 @@ const Index = () => {
       
       {/* Chat Section - Added ID for scrolling */}
       <section id="chat-section" className="pb-12 px-4 max-w-3xl mx-auto relative z-10">
-        {/* Chat Messages Area - Changed background to be darker and increased text size */}
+        {/* Chat Messages Area - Enhanced contrast with darker background */}
         <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
               <div className="w-full max-w-md mx-auto"> 
                 <div className="mb-4 relative w-full h-48 overflow-hidden flex items-center justify-center">
                   <img 
-                    src="https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&q=80&w=800&ixlib=rb-4.0.3" 
-                    alt="Attractive model" 
-                    className="object-cover h-full rounded-lg"
+                    src="/lovable-uploads/b6ce4023-4924-4dae-abfe-ab1b04537f07.png" 
+                    alt="Attractive woman" 
+                    className="object-cover rounded-lg"
                     style={{
-                      filter: "brightness(0.85) contrast(1.1)"
+                      filter: "brightness(1.05) contrast(1.05)"
                     }}
                     onError={(e) => {
                       // Fallback to another image if the custom one fails to load
@@ -140,9 +141,9 @@ const Index = () => {
           <div ref={messagesEndRef} />
         </div>
         
-        {/* Chat Input Area */}
+        {/* Chat Input Area - Enhanced border for better visibility */}
         <form onSubmit={handleSubmit} className="relative">
-          <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 border-t-0 shadow-lg rounded-b-xl p-4">
+          <div className="bg-[#0A0203]/95 backdrop-blur-md border-2 border-red-800/40 border-t-0 shadow-lg rounded-b-xl p-4">
             <Textarea 
               ref={textareaRef}
               value={input}

@@ -29,8 +29,6 @@ const Navbar: React.FC = () => {
           <Logo />
         </Link>
         <div className="hidden md:flex items-center gap-6">
-          <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy</Link>
-          
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>

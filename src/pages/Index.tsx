@@ -8,6 +8,7 @@ import ChatMessage from '@/components/ChatMessage';
 import { useChat } from '@/hooks/useChat';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   const [input, setInput] = useState('');
@@ -174,6 +175,18 @@ const Index = () => {
           </div>
         </form>
       </section>
+      
+      {/* Footer with Privacy and Cookie Policy links */}
+      <footer className="relative z-10 py-6 border-t border-red-900/10 mt-8">
+        <div className="max-w-3xl mx-auto px-4 flex justify-center items-center gap-8">
+          <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            Privacy Policy
+          </Link>
+          <Link to="/cookie-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            Cookie Policy
+          </Link>
+        </div>
+      </footer>
       
       {/* Toast notifications */}
       <Toaster />

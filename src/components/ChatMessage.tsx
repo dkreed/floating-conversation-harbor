@@ -20,7 +20,7 @@ const makeLinksClickable = (text: string) => {
         href={text.trim()} 
         target="_blank"
         rel="noopener noreferrer"
-        className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+        className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity break-all"
       >
         {text.trim()} <ExternalLink size={14} />
       </a>
@@ -44,7 +44,7 @@ const makeLinksClickable = (text: string) => {
           href={url} 
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity break-all"
         >
           {url} <ExternalLink size={14} />
         </a>
@@ -68,7 +68,7 @@ const makeLinksClickable = (text: string) => {
           href={matches[i]} 
           target="_blank"
           rel="noopener noreferrer"
-          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity"
+          className="text-primary underline flex items-center gap-1 hover:opacity-80 transition-opacity break-all"
         >
           {matches[i]} <ExternalLink size={14} />
         </a>
@@ -96,13 +96,13 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
       )}
       <div 
         className={cn(
-          "px-4 py-3 rounded-lg max-w-[80%]",
+          "px-4 py-3 rounded-lg max-w-[85%] md:max-w-[80%]",
           message.isUser 
             ? "bg-primary text-primary-foreground rounded-tr-none" 
             : "bg-[#1D0D12]/90 backdrop-blur-md text-white rounded-tl-none border border-red-900/40 shadow-md"
         )}
       >
-        <p className="text-base md:text-lg whitespace-pre-wrap">{makeLinksClickable(message.content)}</p>
+        <p className="text-base md:text-lg whitespace-pre-wrap break-words">{makeLinksClickable(message.content)}</p>
       </div>
     </div>
   );

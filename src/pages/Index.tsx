@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
@@ -110,11 +111,11 @@ const Index = () => {
               <div className="w-full max-w-md mx-auto"> 
                 <div className="mb-4 relative w-full h-48 overflow-hidden flex items-center justify-center">
                   <img 
-                    src="https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&q=80&w=800&ixlib=rb-4.0.3" 
-                    alt="Attractive model" 
+                    src="/lovable-uploads/d0d1a4fb-d8d0-4e75-aed9-87eb70bfd4b1.png" 
+                    alt="Attractive woman at beach sunset" 
                     className="object-cover h-full rounded-lg"
                     style={{
-                      filter: "brightness(0.85) contrast(1.1)"
+                      filter: "brightness(1.05) contrast(1.05)"
                     }}
                     onError={(e) => {
                       // Fallback to another image if the custom one fails to load

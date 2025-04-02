@@ -12,13 +12,15 @@ export interface Message {
   createdAt: Date;
 }
 
+// Define the webhook URL - this should be configured properly for your environment
+const WEBHOOK_URL = "https://api.vibepicker.pro/chat"; // Replace with your actual webhook URL
+
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  // Toast import remains but we won't use it for message confirmations
   const { toast } = useToast();
 
-  const sendMessage = (content: string) => {
+  const sendMessage = async (content: string) => {
     if (!content.trim()) return;
     
     // Add user message
@@ -32,8 +34,41 @@ export function useChat() {
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
     
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      console.log("Sending message to webhook:", content);
+      
+      // Call webhook with the message content
+      const response = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          message: content,
+          userId: localStorage.getItem('chat_session_id') || uuidv4()
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Webhook returned status ${response.status}`);
+      }
+      
+      // Parse the response from the webhook
+      const data = await response.json();
+      
+      const assistantMessage: Message = {
+        id: uuidv4(),
+        content: data.response || `I found some matches based on your request for "${content}"! Check them out below.`,
+        role: "assistant",
+        createdAt: new Date(),
+      };
+      
+      setMessages((prev) => [...prev, assistantMessage]);
+      
+    } catch (error) {
+      console.error("Error sending message to webhook:", error);
+      
+      // Fallback to the simulated response if webhook fails
       const assistantMessage: Message = {
         id: uuidv4(),
         content: `I found some matches based on your request for "${content}"! Check them out below.`,
@@ -42,10 +77,16 @@ export function useChat() {
       };
       
       setMessages((prev) => [...prev, assistantMessage]);
-      setIsLoading(false);
       
-      // We're not calling toast.success here anymore to remove the notification
-    }, 1500);
+      // Optional: Notify the user about the webhook failure
+      toast({
+        title: "Connection issue",
+        description: "Could not connect to server. Using local responses instead.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
   
   return {

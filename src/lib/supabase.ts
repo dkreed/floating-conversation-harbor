@@ -1,88 +1,132 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize the Supabase client
-const supabaseUrl = 'https://ndykbvxatauhcrjrmdlb.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5keWtidnhhdGF1aGNyanJtZGxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc4OTM4MzcsImV4cCI6MjAyMzQ2OTgzN30.MgJQ3SInSr1-2Ay_r6D0GzxcW8fnDYQzUGELSwIZm5A';
+// We're using these as placeholders. In a real application, these would be real Supabase credentials.
+// For now we'll make a mock version that doesn't actually connect to Supabase
+const supabaseUrl = 'https://example.supabase.co';
+const supabaseAnonKey = 'example-anon-key';
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Create the client but don't use it for any real operations in our mock functions
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Function to create a new chat session
+// Table structure in Supabase:
+// - sessions: id (primary key), created_at (timestamp)
+// - messages: id (primary key), session_id (foreign key), message (text), is_user (boolean), timestamp (timestamp)
+
+interface ChatSession {
+  id: string;
+  created_at: string;
+}
+
+interface ChatMessage {
+  id: string;
+  session_id: string;
+  message: string;
+  is_user: boolean;
+  timestamp: string;
+}
+
+// Mock implementation for local testing
 export const createChatSession = async () => {
-  try {
-    // Generate a unique session ID
-    const sessionId = crypto.randomUUID();
-    
-    // Store the session ID in the database
-    const { error } = await supabase
-      .from('chat_sessions')
-      .insert([{ session_id: sessionId, created_at: new Date().toISOString() }]);
-    
-    if (error) {
-      console.error('Error creating chat session:', error);
-      return null;
-    }
-    
+  // Generate a session ID if one doesn't exist
+  let sessionId = localStorage.getItem('chat_session_id');
+  const timestamp = new Date().toISOString();
+  
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem('chat_session_id', sessionId);
     console.log('Created new chat session:', sessionId);
     
-    // Store the session ID in local storage
-    localStorage.setItem('chat_session_id', sessionId);
+    // In a real implementation, this would create a new row in the sessions table
+    // Example Supabase code (commented out):
+    /*
+    const { data, error } = await supabase
+      .from('sessions')
+      .insert([{ id: sessionId, created_at: timestamp }]);
+      
+    if (error) console.error('Error creating session in database:', error);
+    */
     
-    return sessionId;
-  } catch (error) {
-    console.error('Error creating chat session:', error);
-    return null;
+    // For mock implementation, we'll simulate storing in localStorage
+    const sessionsData = localStorage.getItem('chat_sessions') || '[]';
+    const sessions = JSON.parse(sessionsData) as ChatSession[];
+    sessions.push({ id: sessionId, created_at: timestamp });
+    localStorage.setItem('chat_sessions', JSON.stringify(sessions));
+  } else {
+    console.log('Using existing chat session:', sessionId);
   }
+  
+  return sessionId;
 };
 
-// Function to save a chat message
+// Mock implementation for local testing
 export const saveChatMessage = async (
   sessionId: string, 
   message: string, 
   isUser: boolean,
-  timestamp: string
+  timestamp = new Date().toISOString()
 ) => {
-  try {
-    const { error } = await supabase
-      .from('chat_messages')
-      .insert([{ 
-        session_id: sessionId, 
-        message, 
-        is_user: isUser,
-        timestamp 
-      }]);
+  // Log the message that would be saved
+  console.log('Saving chat message:', { sessionId, message, isUser, timestamp });
+  
+  // In a real implementation, this would insert a row into the messages table
+  // Example Supabase code (commented out):
+  /*
+  const { data, error } = await supabase
+    .from('messages')
+    .insert([{
+      id: crypto.randomUUID(),
+      session_id: sessionId,
+      message,
+      is_user: isUser,
+      timestamp
+    }]);
     
-    if (error) {
-      console.error('Error saving chat message:', error);
-      return false;
-    }
-    
-    return true;
-  } catch (error) {
-    console.error('Error saving chat message:', error);
+  if (error) {
+    console.error('Error saving message to database:', error);
     return false;
   }
+  */
+  
+  // For mock implementation, we'll simulate storing in localStorage
+  const messagesData = localStorage.getItem(`chat_messages_${sessionId}`) || '[]';
+  const messages = JSON.parse(messagesData) as ChatMessage[];
+  messages.push({
+    id: crypto.randomUUID(),
+    session_id: sessionId,
+    message,
+    is_user: isUser,
+    timestamp
+  });
+  localStorage.setItem(`chat_messages_${sessionId}`, JSON.stringify(messages));
+  
+  return true;
 };
 
-// Function to get chat history for a session
+// Mock implementation for local testing
 export const getChatHistory = async (sessionId: string) => {
-  try {
-    console.log('Fetching chat history for session:', sessionId);
+  console.log('Fetching chat history for session:', sessionId);
+  
+  // In a real implementation, this would fetch messages from the Supabase database
+  // Example Supabase code (commented out):
+  /*
+  const { data, error } = await supabase
+    .from('messages')
+    .select('*')
+    .eq('session_id', sessionId)
+    .order('timestamp', { ascending: true });
     
-    const { data, error } = await supabase
-      .from('chat_messages')
-      .select('*')
-      .eq('session_id', sessionId)
-      .order('timestamp', { ascending: true });
-    
-    if (error) {
-      console.error('Error fetching chat history:', error);
-      return [];
-    }
-    
-    return data;
-  } catch (error) {
+  if (error) {
     console.error('Error fetching chat history:', error);
     return [];
   }
+  
+  return data;
+  */
+  
+  // For mock implementation, we'll return messages from localStorage
+  const messagesData = localStorage.getItem(`chat_messages_${sessionId}`) || '[]';
+  const messages = JSON.parse(messagesData) as ChatMessage[];
+  
+  return messages;
 };

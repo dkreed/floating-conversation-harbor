@@ -104,19 +104,15 @@ const Index = () => {
       
       {/* Chat Section - Added ID for scrolling */}
       <section id="chat-section" className="pb-12 px-4 max-w-3xl mx-auto relative z-10">
-        {/* Chat Messages Area - Enhanced with better borders and design */}
-        <div className="bg-[#0A0203]/95 backdrop-blur-md rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto
-                      border-2 border-red-800/30 shadow-lg
-                      relative before:absolute before:inset-0 before:rounded-t-xl before:border before:border-red-300/10
-                      before:pointer-events-none after:absolute after:inset-[1px] after:rounded-t-[calc(0.75rem-1px)] after:border after:border-red-900/20
-                      after:pointer-events-none">
+        {/* Chat Messages Area - Changed background to be darker and increased text size */}
+        <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 shadow-lg rounded-t-xl p-4 min-h-80 max-h-80 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="h-full flex items-center justify-center text-muted-foreground text-center">
               <div className="w-full max-w-md mx-auto"> 
                 <div className="mb-4 relative w-full h-48 overflow-hidden flex items-center justify-center">
                   <img 
-                    src="/lovable-uploads/924811ee-67ce-42ad-9198-27aef18ce166.png" 
-                    alt="Attractive woman with colorful top" 
+                    src="/lovable-uploads/d0d1a4fb-d8d0-4e75-aed9-87eb70bfd4b1.png" 
+                    alt="Attractive woman at beach sunset" 
                     className="object-cover h-full rounded-lg"
                     style={{
                       filter: "brightness(1.05) contrast(1.05)"
@@ -145,13 +141,9 @@ const Index = () => {
           <div ref={messagesEndRef} />
         </div>
         
-        {/* Chat Input Area - Enhanced with matching border design */}
+        {/* Chat Input Area */}
         <form onSubmit={handleSubmit} className="relative">
-          <div className="bg-[#0A0203]/95 backdrop-blur-md rounded-b-xl p-4
-                        border-2 border-t-0 border-red-800/30 shadow-lg
-                        relative before:absolute before:inset-0 before:rounded-b-xl before:border before:border-t-0 before:border-red-300/10
-                        before:pointer-events-none after:absolute after:inset-[1px] after:rounded-b-[calc(0.75rem-1px)] after:border after:border-t-0 after:border-red-900/20
-                        after:pointer-events-none">
+          <div className="bg-[#0A0203]/95 backdrop-blur-md border border-red-800/30 border-t-0 shadow-lg rounded-b-xl p-4">
             <Textarea 
               ref={textareaRef}
               value={input}

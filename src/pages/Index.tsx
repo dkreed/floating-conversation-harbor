@@ -74,7 +74,7 @@ const Index = () => {
           
           {/* Subheadline */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-8">
-            FindMe.ai is your personal desire fulfillment assistant.
+            VibePicker is your personal desire fulfillment assistant.
           </p>
           
           {/* Quick Options - Updated for dating suggestions */}
@@ -114,13 +114,16 @@ const Index = () => {
                     src="/lovable-uploads/6bfc25d5-0340-49d0-8483-795ba7387a67.png" 
                     alt="Attractive woman" 
                     className="object-contain h-full max-w-full"
+                    style={{
+                      filter: "drop-shadow(0 10px 8px rgb(0 0 0 / 0.2))"
+                    }}
                     onError={(e) => {
                       // Fallback to a default image if the custom one fails to load
                       (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800&ixlib=rb-4.0.3";
                     }}
                   />
                 </div>
-                <p className="text-lg md:text-xl">Ask FindMe.ai to help you find what you desire...</p>
+                <p className="text-lg md:text-xl">Ask VibePicker to help you find what you desire...</p>
               </div>
             </div>
           ) : (
@@ -146,7 +149,7 @@ const Index = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleTextareaKeyDown}
-              placeholder="Tell FindMe.ai what you're looking for..."
+              placeholder="Tell VibePicker what you're looking for..."
               className="min-h-24 resize-none p-4 text-base md:text-lg bg-transparent border-0 focus-visible:ring-0 shadow-none placeholder:text-muted-foreground"
             />
             <div className="flex justify-center mt-6">

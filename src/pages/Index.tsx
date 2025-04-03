@@ -112,7 +112,7 @@ const Index = () => {
               <div className="w-full max-w-md mx-auto"> 
                 <div className="mb-6 relative w-full h-48 overflow-hidden flex items-center justify-center">
                   <img 
-                    src="https://top5-ai.tools/wp-content/uploads/2024/04/DALL%C2%B7E_7_GPT-4_Blog_Post_2024-04-29-1.webp" 
+                    src="/lovable-uploads/901c499f-2472-43ed-bb37-7718e7badff4.png" 
                     alt="Attractive woman" 
                     className="object-cover rounded-lg w-full h-full"
                     style={{

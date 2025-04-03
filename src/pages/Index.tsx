@@ -112,7 +112,7 @@ const Index = () => {
               <div className="w-full max-w-md mx-auto"> 
                 <div className="mb-6 relative w-full h-48 overflow-hidden flex items-center justify-center">
                   <img 
-                    src="/lovable-uploads/77cfcae0-6d00-441d-ac2d-acca2e319d0a.png" 
+                    src="/lovable-uploads/901c499f-2472-43ed-bb37-7718e7badff4.png" 
                     alt="Attractive woman" 
                     className="object-cover rounded-lg w-full h-full"
                     style={{

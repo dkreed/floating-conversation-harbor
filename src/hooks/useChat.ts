@@ -118,10 +118,7 @@ export const useChat = () => {
       // Save bot message to Supabase
       await saveChatMessage(sessionId, botMessage.content, false, botMessage.timestamp);
       
-      toast({
-        title: "Message Received",
-        description: "Your message was processed successfully.",
-      });
+      // Removed the toast notification here
     } catch (error) {
       console.error('Error sending message:', error);
       
